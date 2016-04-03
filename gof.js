@@ -7,8 +7,8 @@
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 
-var gridRows = 50;
-var gridColumns = 50;
+var gridRows = 100;
+var gridColumns = 100;
 var cellWidth = canvas.width / gridColumns;
 var cellHeight = canvas.height / gridRows;
 var grid = [];
@@ -40,7 +40,7 @@ function drawGrid() {
 			ctx.strokeStyle = "#aaa";
 			ctx.stroke();
 			if(cell.isAlive) {
-				ctx.fillStyle = "#0056ff";
+				ctx.fillStyle = "#1565C0";
 				ctx.fill();
 			}
 			ctx.closePath();
@@ -194,6 +194,13 @@ function beehive() {
 	grid[Math.floor(gridRows/2+1)][Math.floor(gridColumns/2-1)].isAlive = 1;
 	grid[Math.floor(gridRows/2-1)][Math.floor(gridColumns/2)].isAlive = 1;
 	grid[Math.floor(gridRows/2)][Math.floor(gridColumns/2)].isAlive = 1;
+	drawGrid();
+}
+
+function line() {
+	for (r=0; r<gridRows; r++) {
+		grid[r][Math.floor(gridRows/2-1)].isAlive = 1;
+	}
 	drawGrid();
 }
 
