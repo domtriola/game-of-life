@@ -3,6 +3,7 @@
 	- add edge cases for runLife()
 	- create different functions for various starting positions to 
 	  get a better idea of what is going on
+	- figure out why step doesn't redraw on initial click
 
 */
 
@@ -15,10 +16,6 @@ var cellWidth = canvas.width / gridColumns;
 var cellHeight = canvas.height / gridRows;
 var grid = [];
 
-//starting positions
-function block() {
-
-}
 
 function setGrid(rows, columns) {
 	for (r=0; r<rows; r++) {
@@ -26,7 +23,7 @@ function setGrid(rows, columns) {
 		for (c=0; c<columns; c++) {
 			//randomly set initial life (at 50% chance to be alive)
 			var iniAlive = Math.floor(Math.random()*2);
-			grid[r][c] = { x: r*cellWidth , y: c*cellHeight, isAlive: iniAlive, willBe: iniAlive}
+			grid[r][c] = { x: r*cellWidth , y: c*cellHeight, isAlive: 0, willBe: 0}
 		}
 	}
 	return grid;
@@ -54,9 +51,10 @@ function drawGrid() {
 	}
 }
 
-//acts like a torus??
+//No life beyond walls (does not act like a torus)
 function runLife() {
 
+	var aliveCount = 0;
 	//determine whether cells will be alive or dead
 	for (r=0; r<grid.length; r++) {
 		for (c=0; c<grid[r].length; c++) {
@@ -65,10 +63,9 @@ function runLife() {
 			//count live neighbors
 			count = 0;
 			
-			
 			//for non-edge cases
-			for (i=r-1; i<r+4; i++) {
-				for (j=c-1; j<c+4; j++) {	
+			for (i=r-1; i<r+2; i++) {
+				for (j=c-1; j<c+2; j++) {	
 					
 					//setup edge variables
 					var leftEdge = 0;
@@ -87,37 +84,25 @@ function runLife() {
 						bottomEdge = 1;
 					}
 
-
+					//fill in if statements for torus effect
 					if (leftEdge && topEdge) {
-
 					} else if (leftEdge && bottomEdge) {
-
 					} else if (leftEdge) {
-
 					} else if (rightEdge && topEdge) {
-
 					} else if (rightEdge && bottomEdge) {
-
 					} else if (rightEdge) {
-
 					} else if (topEdge) {
-
 					} else if (bottomEdge) {
-
 					} else {
-						//console.log(bottomEdge);
-						//console.log("i: " + i);
-						//console.log("j: " + j);
-						if (grid[i][j].isAlive && (i!=r && j!=c)) {
+						if (grid[i][j].isAlive && !(i==r && j==c)) {
 							count+=1;
 						}
-					}
-					
+					}				
 				}
 			}
 
-			
 			if (cell.isAlive) {	
+				aliveCount+=1;
 				if (count > 1 && count < 4) {
 					cell.willBe = 'alive';
 				} else {
@@ -167,7 +152,53 @@ function draw() {
 	requestAnimationFrame(draw);
 }
 
-draw();
+function step() {
+	ctx.clearRect(0,0,canvas.width, canvas.height);
+	drawGrid();
+	runLife();
+}
+
+function clearGrid() {
+	for (r=0; r<grid.length; r++) {
+		for (c=0; c<grid[r].length; c++) {
+			grid[r][c].isAlive = 0;
+			grid[r][c].willBe = 0;
+		}
+	}
+	drawGrid();
+}
+
+/* Options
+***************/
+
+function randomGrid() {
+	for (r=0; r<grid.length; r++) {
+		for (c=0; c<grid[r].length; c++) {
+			var iniAlive = Math.floor(Math.random()*2);
+			grid[r][c].isAlive = iniAlive;
+		}
+	}
+	drawGrid();
+}
+
+//starting positions
+function block() {
+	grid[Math.floor(gridRows/2-1)][Math.floor(gridColumns/2-1)].isAlive = 1;
+	grid[Math.floor(gridRows/2)][Math.floor(gridColumns/2-1)].isAlive = 1;
+	grid[Math.floor(gridRows/2-1)][Math.floor(gridColumns/2)].isAlive = 1;
+	grid[Math.floor(gridRows/2)][Math.floor(gridColumns/2)].isAlive = 1;
+	drawGrid();
+}
+
+function beehive() {
+	grid[Math.floor(gridRows/2-1)][Math.floor(gridColumns/2-2)].isAlive = 1;
+	grid[Math.floor(gridRows/2)][Math.floor(gridColumns/2-2)].isAlive = 1;
+	grid[Math.floor(gridRows/2-2)][Math.floor(gridColumns/2-1)].isAlive = 1;
+	grid[Math.floor(gridRows/2+1)][Math.floor(gridColumns/2-1)].isAlive = 1;
+	grid[Math.floor(gridRows/2-1)][Math.floor(gridColumns/2)].isAlive = 1;
+	grid[Math.floor(gridRows/2)][Math.floor(gridColumns/2)].isAlive = 1;
+	drawGrid();
+}
 
 
 
