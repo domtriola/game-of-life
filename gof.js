@@ -1,17 +1,14 @@
-/* Things to fix
+/* Things it would be nice to do
 	
-	- add edge cases for runLife()
-	- create different functions for various starting positions to 
-	  get a better idea of what is going on
-	- figure out why step doesn't redraw on initial click
+	- add toroid functionality to runLife()
 
 */
 
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 
-var gridRows = 30;
-var gridColumns = 30;
+var gridRows = 50;
+var gridColumns = 50;
 var cellWidth = canvas.width / gridColumns;
 var cellHeight = canvas.height / gridRows;
 var grid = [];
@@ -154,8 +151,8 @@ function draw() {
 
 function step() {
 	ctx.clearRect(0,0,canvas.width, canvas.height);
-	drawGrid();
 	runLife();
+	drawGrid();
 }
 
 function clearGrid() {
@@ -165,7 +162,7 @@ function clearGrid() {
 			grid[r][c].willBe = 0;
 		}
 	}
-	drawGrid();
+	step();
 }
 
 /* Options
