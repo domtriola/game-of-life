@@ -1,6 +1,7 @@
 /* Things it would be nice to do
 	
 	- add toroid functionality to runLife()
+	- swap row and column reference in functions at bottom or somehere earlier on?
 
 */
 
@@ -201,6 +202,15 @@ function line() {
 	for (r=0; r<gridRows; r++) {
 		grid[r][Math.floor(gridRows/2-1)].isAlive = 1;
 	}
+	drawGrid();
+}
+
+function rPentomino() {
+	grid[Math.floor(gridRows/2-1)][Math.floor(gridColumns/2-1)].isAlive = 1;
+	grid[Math.floor(gridRows/2)][Math.floor(gridColumns/2-1)].isAlive = 1;
+	grid[Math.floor(gridRows/2-1)][Math.floor(gridColumns/2)].isAlive = 1;
+	grid[Math.floor(gridRows/2-2)][Math.floor(gridColumns/2)].isAlive = 1;
+	grid[Math.floor(gridRows/2-1)][Math.floor(gridColumns/2+1)].isAlive = 1;
 	drawGrid();
 }
 
