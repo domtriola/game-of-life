@@ -1,14 +1,5 @@
 /* Things it would be nice to do
-	
 	- add toroid functionality to runLife()
-
-*/
-
-/* Things to fix
-
-	- doesn't run if columns and rows are different
-	- redo starter-pattern functions to accurately reference rows and columns
-
 */
 
 var canvas = document.getElementById('canvas');
@@ -79,12 +70,12 @@ function runLife() {
 
 					if (i<0) {
 						leftEdge = 1;
-					} else if (i > gridColumns - 1) {
+					} else if (i > gridRows - 1) {
 						rightEdge = 1;
 					}
 					if (j<0) {
 						topEdge = 1;
-					} else if (j > gridRows - 1) {
+					} else if (j > gridColumns - 1) {
 						bottomEdge = 1;
 					}
 
@@ -205,8 +196,8 @@ function beehive() {
 }
 
 function line() {
-	for (r=0; r<gridRows; r++) {
-		grid[r][Math.floor(gridRows/2-1)].isAlive = 1;
+	for (c=0; c<gridColumns; c++) {
+		grid[Math.floor(gridRows/2-1)][c].isAlive = 1;
 	}
 	drawGrid();
 }
