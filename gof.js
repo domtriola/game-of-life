@@ -1,15 +1,20 @@
 /* Things it would be nice to do
 	
 	- add toroid functionality to runLife()
-	- swap row and column reference in functions at bottom or somehere earlier on?
+
+*/
+
+/* Things to fix
+
+	- doesn't run if columns and rows are different
 
 */
 
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 
-var gridRows = 100;
-var gridColumns = 100;
+var gridRows = 60;
+var gridColumns = 30;
 var cellWidth = canvas.width / gridColumns;
 var cellHeight = canvas.height / gridRows;
 var grid = [];
@@ -21,7 +26,7 @@ function setGrid(rows, columns) {
 		for (c=0; c<columns; c++) {
 			//randomly set initial life (at 50% chance to be alive)
 			var iniAlive = Math.floor(Math.random()*2);
-			grid[r][c] = { x: r*cellWidth , y: c*cellHeight, isAlive: 0, willBe: 0}
+			grid[r][c] = { x: c*cellWidth, y: r*cellHeight, isAlive: 0, willBe: 0}
 		}
 	}
 	return grid;
