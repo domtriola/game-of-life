@@ -7,6 +7,7 @@
 /* Things to fix
 
 	- doesn't run if columns and rows are different
+	- redo starter-pattern functions to accurately reference rows and columns
 
 */
 
@@ -14,7 +15,7 @@ var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 
 var gridRows = 60;
-var gridColumns = 30;
+var gridColumns = 60;
 var cellWidth = canvas.width / gridColumns;
 var cellHeight = canvas.height / gridRows;
 var grid = [];
